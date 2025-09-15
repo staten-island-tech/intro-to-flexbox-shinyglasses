@@ -1,0 +1,26 @@
+body, * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    font-family: Outfit;
+}
+
+body {
+    background-color: #92e5f9;
+}
+.container {
+    display: flex;
+}
+
+.card {
+
+}
+
+h2 {
+    font-size:2.488rem;
+}
+
+h1 {
+    font-size: 2.986rem;
+}
