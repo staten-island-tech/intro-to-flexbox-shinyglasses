@@ -4,23 +4,38 @@ body, * {
     margin: 0;
     font-size: 15px;
     font-family: Outfit;
+    text-align: center;
+    color: #2e302d;
 }
 
 body {
-    background-color: #92e5f9;
-}
+    background-color: #f5f8fa;
+}   
 .container {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .card {
-
+margin: 2vw;
+ box-shadow: rgba(0, 0, 0, 0.15) 3.95px 5.95px 2.6px;   
+ border: 10px solid #2e302d;
 }
-
+.button--buy {
+    background-color: #94c317;
+}
 h2 {
     font-size:2.488rem;
 }
 
 h1 {
     font-size: 2.986rem;
+}
+
+img {
+    width: 10vw;
+}
+.card__bottom {
+    display: flex;
 }
