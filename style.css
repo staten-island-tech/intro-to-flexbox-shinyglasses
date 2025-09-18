@@ -18,12 +18,23 @@ body {
 }
 
 .card {
- margin: 2vw;
+ margin: 2%;
  box-shadow: rgba(0, 0, 0, 0.15) 3.95px 5.95px 2.6px;   
- border: 10px solid #2e302d;
+ border: 10px solid #142b5c;
 }
-.button--buy {
-    background-color: #94c317
+.buy {
+    background-color:#799ff1;
+    color: #f5f8fa;
+    border-width: 0;
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: none !important;
+    
+    margin-right: 5%;
+}
+.card_bottom h3 {
+    margin-left: 5%;
+    font-weight: 400;
 }
 h2 {
     font-size:2.488rem;
@@ -37,12 +48,12 @@ img {
     width: 10vw;
     height: 30vh;
 }
-.card__bottom { 
-    display: flex;
-    justify-items: space-between;
-    align-items: center;
+.card_bottom {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
 }
-
 .card_heading {
     width: 5vw;
+    font-weight: 700;
 }
