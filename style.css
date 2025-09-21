@@ -21,12 +21,14 @@ body {
  margin: 2%;
  box-shadow: rgba(0, 0, 0, 0.15) 3.95px 5.95px 2.6px;   
  border: 10px solid #142b5c;
- width: 13vw;
+ width: 400px;
  height: 45vh;
+ background-color: #FFFF;
  border-radius: 8px;
 }
 .card h2 {
-    width: 100%;
+    margin: 0 auto;
+    font-size: 30px;
 }
 .buy {
     background-color:#799ff1;
@@ -34,13 +36,11 @@ body {
     border-width: 0;
     border-radius: 4px;
     padding: 8px 12px;
-    box-shadow: none !important;
-    
     margin-right: 5%;
 }
 .card_bottom h3 {
     margin-left: 5%;
-    font-weight: 400;
+    font-weight: 400;   
 }
 h2 {
     font-size:2.488rem;
@@ -62,7 +62,7 @@ img {
   margin-top: auto;
 }
 .card_heading {
-    width: 5vw;
+    width: 1vw;
     font-weight: 700;
 }
 
@@ -87,9 +87,6 @@ img {
     .card img {
         width: 50%;
     }
-    #red_light_mask {
-        font-size: 1.5vw;
-    }
 }   
 
 #essence {
@@ -97,3 +94,7 @@ img {
     height: 30vh;
 }
 
+.buy:hover {
+    background-color: #3b6dd8;
+    box-shadow: 0 0 10px rgba(0,255,255,0.5);
+}
