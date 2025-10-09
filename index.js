@@ -133,19 +133,19 @@ const items = [
         "instock": true
     }
 ]
-const DOMSelectors = {
-  name: document.getElementById("name"),
-  image: document.getElementById("image"),
-  alt: document.getElementById("alt"),
-  price: document.getElementById("price"),
-  instock: document
-};
 
-function make_card(item) {
-if (item.instock) {
-
-    const targetElement = document.getElementById(''); //i dont have ids
-    targetElement.innerHTML = 
-
+function inject(item) {
+    const container = document.querySelector(".container");
+    //query the container
+    //use adjacent html to push card into container
+    const html = `<div class="card">
+    <h2 class="card__heading"${item.name}</h2><img src="${item.image}"><div class="card_bottom">
+                <h3> $${item.price} </h3>
+                <button class="buy">BUY</button>
+            </div>`
+    container.insertAdjacentHTML('afterbegin', html);
 }
-}
+
+inject(items[0])
+items.forEach((item) => inject(item))
+//create inject function and loop through items
