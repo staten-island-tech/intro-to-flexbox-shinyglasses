@@ -149,3 +149,18 @@ function inject(item) {
 inject(items[0])
 items.forEach((item) => inject(item))
 //create inject function and loop through items
+
+function add_to_cart() {
+    const buy_buttons = document.querySelectorAll('.buy'); //node lsit
+    console.log(buy_buttons);
+    const cart = document.querySelector('.cart');
+    buy_buttons.forEach((btn) => btn.addEventListener('click', function (event) {
+        console.log(event.target.textContent);
+        console.log(event.target.closest("card"));
+    }))   
+}
+
+function filter() {
+    //
+}
+add_to_cart
