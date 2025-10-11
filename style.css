@@ -18,20 +18,6 @@ body {
     flex-wrap: wrap;
 }
 
-.card {
- margin: 2%;
- box-shadow: rgba(0, 0, 0, 1) 4px 5px 3px;   
- border: 10px solid #142b5c;
- width: 400px;
- height: 45vh;
- background-color: #FFFF;
- border-radius: 8px;
- background-color: #FFFF;
-}
-.card h2 {
-    margin: 0 auto;
-    font-size: 30px;
-}
 .buy {
     background-color:#799ff1;
     color: #f5f8fa;
@@ -46,10 +32,7 @@ body {
     box-shadow: 0 0 20px rgba(0,255,255,0.5);
     
 }
-.card_bottom h3 {
-    margin-left: 5%;
-    font-weight: 400;   
-}
+
 h2 {
     font-size:2.488rem;
 }
@@ -64,7 +47,19 @@ img {
     height: 30vh;
     margin-top: 5%;
 }
-.card_bottom {
+
+.card {
+ margin: 2%;
+ box-shadow: rgba(0, 0, 0, 1) 4px 5px 3px;   
+ border: 10px solid #142b5c;
+ width: 400px;
+ height: 45vh;
+ background-color: #FFFF;
+ border-radius: 8px;
+ background-color: #FFFF;
+}
+
+.card__bottom {
   display: flex;
   justify-content: space-between; 
   align-items: center;
@@ -73,6 +68,16 @@ img {
 .card_heading {
     width: 1vw;
     font-weight: 700;
+    margin: 0 auto;
+    font-size: 30px;
+}
+.card__bottom h3 {
+    margin-left: 5%;
+    font-weight: 400;   
+}
+#essence {
+    width: 8vw;
+    height: 30vh;
 }
 
 @media screen and (max-width:700px){
@@ -101,13 +106,3 @@ img {
         width: 50%;
     }
 }   
-
-#essence {
-    width: 8vw;
-    height: 30vh;
-}
-
-.buy:hover {
-    background-color: #3b6dd8;
-    box-shadow: 0 0 10px rgba(0,255,255,0.5);
-}

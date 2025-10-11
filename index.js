@@ -139,7 +139,7 @@ function inject(item) {
     //query the container
     //use adjacent html to push card into container
     const html = `<div class="card">
-    <h2 class="card__heading"${item.name}</h2><img src="${item.image}"><div class="card_bottom">
+    <h2 class="card__heading">${item.name}</h2><img src="${item.image}"><div class="card__bottom">
                 <h3> $${item.price} </h3>
                 <button class="buy">BUY</button>
             </div>`
