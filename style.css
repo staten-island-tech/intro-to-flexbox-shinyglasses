@@ -80,6 +80,15 @@ img {
     height: 30vh;
 }
 
+.divider {
+    background-color: #142b5c;
+    height: 2px;
+    opacity: 50%;
+}
+
+.cart__product {
+    font-weight: 400;
+}
 @media screen and (max-width:700px){
     .card {
         width: 100%;

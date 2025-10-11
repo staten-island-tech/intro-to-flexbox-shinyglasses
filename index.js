@@ -141,7 +141,7 @@ function inject(item) {
     const html = `<div class="card">
     <h2 class="card__heading">${item.name}</h2><img src="${item.image}"><div class="card__bottom">
                 <h3> $${item.price} </h3>
-                <button class="buy">BUY</button>
+                <button class="buy" data-title="${item.name}">BUY</button>
             </div>`
     container.insertAdjacentHTML('afterbegin', html);
 }
@@ -149,18 +149,34 @@ function inject(item) {
 inject(items[0])
 items.forEach((item) => inject(item))
 //create inject function and loop through items
-
 function add_to_cart() {
     const buy_buttons = document.querySelectorAll('.buy'); //node lsit
-    console.log(buy_buttons);
     const cart = document.querySelector('.cart');
-    buy_buttons.forEach((btn) => btn.addEventListener('click', function (event) {
-        console.log(event.target.textContent);
-        console.log(event.target.closest("card"));
-    }))   
+    const items_in_cart = []
+    buy_buttons.forEach((btn) => btn.addEventListener('click', function(event) {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i]['name'] === event.currentTarget.dataset.title) {
+                items_in_cart.push(items[i])
+                console.log(items[i]);
+                console.log(items_in_cart);
+                //its not a item in cart issue its something to do witht the html
+            }
+        }
+        items_in_cart.forEach((item) => (cart.insertAdjacentHTML('afterend', `<div class='cart__product'>${item['name']}: ${item.price} </div> `)))
+    })) 
 }
+add_to_cart()
+function cart_total(items_in_cart) {
+    let cart_total = 0
+    items_in_cart.forEach((item) => (cart_total += item.price))
+    return cart_total
+}
+
+function remove_from_cart() {
+
+}
+
 
 function filter() {
     //
 }
-add_to_cart
