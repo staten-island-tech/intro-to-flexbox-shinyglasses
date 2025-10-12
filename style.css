@@ -89,6 +89,32 @@ img {
 .cart__product {
     font-weight: 400;
 }
+.cart {
+    width: 40%;
+    margin: 0 auto;
+   
+}
+.total {
+    margin-top: 2%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+.cart__product {
+    border: #2e302d;
+    font-size: 1.728rem;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid;
+    margin-bottom: 2%;
+}
+
+.remove--buttons {
+  display: flex;
+  flex-shrink: 0;
+}
 @media screen and (max-width:700px){
     .card {
         width: 100%;

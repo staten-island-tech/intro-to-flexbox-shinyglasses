@@ -149,34 +149,101 @@ function inject(item) {
 inject(items[0])
 items.forEach((item) => inject(item))
 //create inject function and loop through items
+const cart = document.querySelector('.cart');
+const items_in_cart = [];
+let cart_total = 0;
+
 function add_to_cart() {
-    const buy_buttons = document.querySelectorAll('.buy'); //node lsit
-    const cart = document.querySelector('.cart');
-    const items_in_cart = []
+    const buy_buttons = document.querySelectorAll('.buy'); //node list
     buy_buttons.forEach((btn) => btn.addEventListener('click', function(event) {
         for (let i = 0; i < items.length; i++) {
-            if (items[i]['name'] === event.currentTarget.dataset.title) {
-                items_in_cart.push(items[i])
-                console.log(items[i]);
-                console.log(items_in_cart);
+            const item = items[i]
+            if (item['name'] === event.currentTarget.dataset.title) {
                 //its not a item in cart issue its something to do witht the html
+                const existingProduct = cart.querySelector(`.cart__product[data-title="${item.name}"]`);
+                if (existingProduct) {
+                    item.amount++
+                    const item_details = existingProduct.querySelector('.item__details')
+                    item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
+                } else {
+                    item.amount = 1;
+                    console.log(item.amount);
+                    items_in_cart.push(items[i]);
+                    const cart_heading = document.getElementById('cart__heading');
+                    cart_heading.insertAdjacentHTML('beforeend', `
+                    <div class='cart__product' data-title="${item.name}">
+                    <span class='item__details'> ${item.name} (Amount: ${item.amount}): $${item.amount * item.price}</span>
+                    <div class="remove--buttons"> 
+                    <button class='remove--one'>Remove one</button>
+                    <button class='remove--all'>Remove all</button>
+                    </div>
+                    </div>`
+                    );
+                }
+                cart_total = 0
+                find_cart_total();
+                console.log(items_in_cart)
             }
         }
-        items_in_cart.forEach((item) => (cart.insertAdjacentHTML('afterend', `<div class='cart__product'>${item['name']}: ${item.price} </div> `)))
     })) 
 }
-add_to_cart()
-function cart_total(items_in_cart) {
-    let cart_total = 0
-    items_in_cart.forEach((item) => (cart_total += item.price))
-    return cart_total
+add_to_cart() 
+function find_cart_total() {
+    items_in_cart.forEach(item => {cart_total += item.price * item.amount; });
+    const total_section = cart.querySelector('.total');
+    if (total_section) {
+        total_details = document.querySelector('.total__details');
+        total_details.textContent = `Total: ${cart_total}`
+    } else {
+        cart.insertAdjacentHTML('beforeend', `<div class='total'> 
+            <span class='total__details'> 
+                Total: ${cart_total} 
+            </span>
+            <button class="purchase">Purchase</button>
+            </div>`)
+    }
 }
 
-function remove_from_cart() {
+function remove_one_from_cart() {
+    const btns = document.querySelectorAll('.remove--one');
+    btns.forEach((btn) => {
+        btn.addEventListener('click', function(event) {
+            const item = event.currentTarget.parentElement.parentElement;
+            const itemName = item.dataset.title;
 
+            items_in_cart.forEach((product) => {
+                if (product.name === itemName) {
+                    product.amount -= 1;
+                    console.log(items_in_cart);
+                }
+            });
+        });
+    });
 }
 
+function remove_all_from_cart() {
+    const btns = document.querySelectorAll('.remove--all'); // select the correct buttons
+    btns.forEach((btn) => {
+        btn.addEventListener('click', function(event) {
+            const item = event.currentTarget.parentElement.parentElement; // grandparent cart__product
+            const itemName = item.dataset.title;
+
+            const index = items_in_cart.findIndex(product => product.name === itemName); 
+            if (index !== -1) {
+                items_in_cart.splice(index, 1); // remove from array
+                item.remove(); // remove from DOM
+            }
+        });
+    });
+}
+
+remove_one_from_cart()
+remove_all_from_cart()
 
 function filter() {
     //
+}
+
+function sort() {
+
 }
