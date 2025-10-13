@@ -4,6 +4,7 @@ const items = [
         "image": "images/cleanser.png",
         "alt": "Cleanser picture",
         "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -11,6 +12,7 @@ const items = [
         "image": "images/sunscreen.png",
         "alt": "Sunscreen picture",
         "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -18,6 +20,7 @@ const items = [
         "image": "images/toner.png",
         "alt": "Toner picture",
         "price": 25,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -25,6 +28,7 @@ const items = [
         "image": "images/dry_brush.png",
         "alt": "Dry Brush picture",
         "price": 10,
+        "type": ["tool", "body"],
         "instock": true
     },
     {
@@ -32,6 +36,7 @@ const items = [
         "image": "images/essence.png",
         "alt": "Essence picture",
         "price": 40,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -39,6 +44,7 @@ const items = [
         "image": "images/exfoliant.png",
         "alt": "Exfoliant picture",
         "price": 40,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -46,13 +52,7 @@ const items = [
         "image": "images/retinol.png",
         "alt": "Retinol picture",
         "price": 30,
-        "instock": true
-    },
-    {
-        "name": "Scrub",
-        "image": "images/scrub.png",
-        "alt": "Scrub picture",
-        "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -60,6 +60,7 @@ const items = [
         "image": "images/moisturizer.png",
         "alt": "Moisturizer picture",
         "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -67,6 +68,7 @@ const items = [
         "image": "images/mask.png",
         "alt": "Mask picture",
         "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -74,6 +76,7 @@ const items = [
         "image": "images/lip_balm.png",
         "alt": "Lip Balm picture",
         "price": 30,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -81,6 +84,7 @@ const items = [
         "image": "images/led_mask.png",
         "alt": "Red Light Mask picture",
         "price": 30,
+        "type": ["face", "tool"],
         "instock": true
     },
     {
@@ -88,6 +92,7 @@ const items = [
         "image": "images/face_roller.png",
         "alt": "Face Roller picture",
         "price": 20,
+        "type": ["face", "tool"],
         "instock": true
     },
     {
@@ -95,6 +100,7 @@ const items = [
         "image": "images/face_oil.png",
         "alt": "Face Oil picture",
         "price": 20,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -102,6 +108,7 @@ const items = [
         "image": "images/pimple_patch.png",
         "alt": "Pimple Patch picture",
         "price": 15,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -109,6 +116,7 @@ const items = [
         "image": "images/body_scrub.png",
         "alt": "Body Scrub picture",
         "price": 10,
+        "type": ["body"],
         "instock": true
     },
     {
@@ -116,6 +124,7 @@ const items = [
         "image": "images/cleansing_balm.png",
         "alt": "Cleansing Balm picture",
         "price": 10,
+        "type": ["face"],
         "instock": true
     },
     {
@@ -123,6 +132,7 @@ const items = [
         "image": "images/exfoliating_bar.png",
         "alt": "Exfoliating Bar picture",
         "price": 10,
+        "type": ["body"],
         "instock": true
     },
     {
@@ -130,12 +140,17 @@ const items = [
         "image": "images/emulsion.png",
         "alt": "Emulsion picture",
         "price": 10,
+        "type": ["face"],
         "instock": true
     }
 ]
 
+const cart = document.querySelector('.cart');
+const items_in_cart = [];
+let cart_total = 0;
+const container = document.querySelector(".container");
+
 function inject(item) {
-    const container = document.querySelector(".container");
     //query the container
     //use adjacent html to push card into container
     const html = `<div class="card">
@@ -149,10 +164,22 @@ function inject(item) {
 inject(items[0])
 items.forEach((item) => inject(item))
 //create inject function and loop through items
-const cart = document.querySelector('.cart');
-const items_in_cart = [];
-let cart_total = 0;
 
+
+function render_cart_items(item) {
+   const cart_heading = document.getElementById('cart__heading');
+                    cart_heading.insertAdjacentHTML('beforeend', `
+                    <div class='cart__product' data-title="${item.name}">
+                    <span class='item__details'> ${item.name} (Amount: ${item.amount}): $${item.amount * item.price}</span>
+                    <div class="remove--buttons"> 
+                    <button class='remove--one'>Remove one</button>
+                    <button class='remove--all'>Remove all</button>
+                    </div>
+                    </div>`)
+}
+function buy_button_click_code(event) {
+
+}
 function add_to_cart() {
     const buy_buttons = document.querySelectorAll('.buy'); //node list
     buy_buttons.forEach((btn) => btn.addEventListener('click', function(event) {
@@ -163,33 +190,25 @@ function add_to_cart() {
                 const existingProduct = cart.querySelector(`.cart__product[data-title="${item.name}"]`);
                 if (existingProduct) {
                     item.amount++
+                    cart_total += item.price  
                     const item_details = existingProduct.querySelector('.item__details')
                     item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
                 } else {
+                    cart_total += item.price  
                     item.amount = 1;
-                    console.log(item.amount);
                     items_in_cart.push(items[i]);
-                    const cart_heading = document.getElementById('cart__heading');
-                    cart_heading.insertAdjacentHTML('beforeend', `
-                    <div class='cart__product' data-title="${item.name}">
-                    <span class='item__details'> ${item.name} (Amount: ${item.amount}): $${item.amount * item.price}</span>
-                    <div class="remove--buttons"> 
-                    <button class='remove--one'>Remove one</button>
-                    <button class='remove--all'>Remove all</button>
-                    </div>
-                    </div>`
-                    );
+                    render_cart_items(item);
                 }
-                cart_total = 0
-                find_cart_total();
-                console.log(items_in_cart)
+
+                update_cart_total();
             }
         }
     })) 
 }
+
 add_to_cart() 
-function find_cart_total() {
-    items_in_cart.forEach(item => {cart_total += item.price * item.amount; });
+
+function update_cart_total() {
     const total_section = cart.querySelector('.total');
     if (total_section) {
         total_details = document.querySelector('.total__details');
@@ -204,19 +223,40 @@ function find_cart_total() {
     }
 }
 
+function remove_items() {
+    cart.addEventListener('click', function(event) {
+        //gets html element and its name
+        const html_item = event.target.parentElement.parentElement;
+        const item_name = html_item.dataset.title;
+        const item = items_in_cart.find(item => item.name === item_name);
+        console.log(item)
+        if (event.target.classList.contains('remove--one')) {
+            //need to find js version
+            item.amount -= 1;
+            item_details = cart.querySelector('.item__details');
+            item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
+            cart_total -= item.price;
+            update_cart_total()
+            console.log(cart_total)
+        } else if (event.target.classList.contains('remove--all')) {
+            cart_total -= item.price * item.amount
+            update_cart_total();
+            console.log(cart_total)
+            item.amount = 0;    
+        }
+        if (item.amount === 0) {
+            html_item.remove();
+        }
+    }) 
+}
+
 function remove_one_from_cart() {
+    console.log('jhsdfjsdfjillj');
     const btns = document.querySelectorAll('.remove--one');
     btns.forEach((btn) => {
         btn.addEventListener('click', function(event) {
-            const item = event.currentTarget.parentElement.parentElement;
-            const itemName = item.dataset.title;
-
-            items_in_cart.forEach((product) => {
-                if (product.name === itemName) {
-                    product.amount -= 1;
-                    console.log(items_in_cart);
-                }
-            });
+            console.log('fifjisjif');   
+            
         });
     });
 }
@@ -225,25 +265,33 @@ function remove_all_from_cart() {
     const btns = document.querySelectorAll('.remove--all'); // select the correct buttons
     btns.forEach((btn) => {
         btn.addEventListener('click', function(event) {
-            const item = event.currentTarget.parentElement.parentElement; // grandparent cart__product
-            const itemName = item.dataset.title;
-
-            const index = items_in_cart.findIndex(product => product.name === itemName); 
-            if (index !== -1) {
-                items_in_cart.splice(index, 1); // remove from array
-                item.remove(); // remove from DOM
-            }
+            
         });
     });
 }
 
-remove_one_from_cart()
-remove_all_from_cart()
+remove_items()
 
 function filter() {
-    //
+    const filter_btns = document.querySelectorAll('.filter');
+    filter_btns.forEach(btn => btn.addEventListener('click', function(event) {
+        let filter_type = event.target.textContent.toLowerCase();
+        if (filter_type === 'tools') {
+            filter_type = 'tool';
+            //the filter button is Tools while in the items array the type is tool
+        }
+        console.log(filter_type)
+        const filtered_array = items.filter(item => item.type.includes(filter_type));
+        console.log(filtered_array);
+        const container = document.querySelector('.container');
+        container.innerHTML = ''
+        filtered_array.forEach(item =>inject(item))
+    }))
+    
 }
 
+    
 function sort() {
 
 }
+

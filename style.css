@@ -92,7 +92,7 @@ img {
 .cart {
     width: 40%;
     margin: 0 auto;
-   
+    padding-bottom: 2%;
 }
 .total {
     margin-top: 2%;
