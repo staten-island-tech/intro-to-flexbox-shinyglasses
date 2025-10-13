@@ -161,13 +161,12 @@ function inject(item) {
     container.insertAdjacentHTML('afterbegin', html);
 }
 
-inject(items[0])
 items.forEach((item) => inject(item))
 //create inject function and loop through items
 
 
 function render_cart_items(item) {
-   const cart_heading = document.getElementById('cart__heading');
+   const cart_heading = document.querySelector('.cart__items')
                     cart_heading.insertAdjacentHTML('beforeend', `
                     <div class='cart__product' data-title="${item.name}">
                     <span class='item__details'> ${item.name} (Amount: ${item.amount}): $${item.amount * item.price}</span>
@@ -177,46 +176,36 @@ function render_cart_items(item) {
                     </div>
                     </div>`)
 }
-function buy_button_click_code(event) {
 
-}
-function add_to_cart() {
-    const buy_buttons = document.querySelectorAll('.buy'); //node list
-    buy_buttons.forEach((btn) => btn.addEventListener('click', function(event) {
-        for (let i = 0; i < items.length; i++) {
-            const item = items[i]
-            if (item['name'] === event.currentTarget.dataset.title) {
-                //its not a item in cart issue its something to do witht the html
-                const existingProduct = cart.querySelector(`.cart__product[data-title="${item.name}"]`);
-                if (existingProduct) {
-                    item.amount++
-                    cart_total += item.price  
-                    const item_details = existingProduct.querySelector('.item__details')
-                    item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
-                } else {
-                    cart_total += item.price  
-                    item.amount = 1;
-                    items_in_cart.push(items[i]);
-                    render_cart_items(item);
-                }
+function handle_add_to_cart(item) {
+    const existingProduct = cart.querySelector(`.cart__product[data-title="${item.name}"]`);
+    //no event listeners here because it gets messed up if the listeners are here and the user filters
+    if (existingProduct) {
+        item.amount++;
+        cart_total += item.price;
+        const item_details = existingProduct.querySelector('.item__details');
+        item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
+    } else {
+        item.amount = 1;
+        cart_total += item.price;
+        items_in_cart.push(item);
+        render_cart_items(item);
+    }
 
-                update_cart_total();
-            }
-        }
-    })) 
+    update_cart_total();
 }
 
-add_to_cart() 
+
 
 function update_cart_total() {
     const total_section = cart.querySelector('.total');
     if (total_section) {
         total_details = document.querySelector('.total__details');
-        total_details.textContent = `Total: ${cart_total}`
+        total_details.textContent = `Total: $${cart_total}`
     } else {
         cart.insertAdjacentHTML('beforeend', `<div class='total'> 
             <span class='total__details'> 
-                Total: ${cart_total} 
+                Total: $${cart_total} 
             </span>
             <button class="purchase">Purchase</button>
             </div>`)
@@ -285,13 +274,37 @@ function filter() {
         console.log(filtered_array);
         const container = document.querySelector('.container');
         container.innerHTML = ''
+        //this unfortunately breaks the buy button event listenerd
         filtered_array.forEach(item =>inject(item))
+        
+        
     }))
     
 }
-
-    
+filter();
+container.addEventListener('click', function(event) {
+    if (event.target.classList.contains('buy')) {
+        const itemName = event.target.dataset.title;
+        const item = items.find(i => i.name === itemName);
+        handle_add_to_cart(item); // this just adds item, no listeners
+    }
+});
 function sort() {
-
+    //price sorting 
+    const sort_btns = document.querySelectorAll('.sort');
+    sort_btns.forEach(btn => btn.addEventListener('click', function(event) {
+        const sort_type = event.target.textContent;
+        console.log('button triggered')
+        if (sort_type === 'Expensive to Cheap') {
+            sorted_array = items.sort((itemA, itemB)=> itemB.price - itemA.price )
+            console.log(sorted_array)
+        } else if (sort_type === 'Cheap to Expensive') {
+            sorted_array = items.sort((itemA, itemB)=> itemA.price - itemB.price )
+            console.log(sorted_array)
+        }   
+        container.innerHTML = ''
+        sorted_array.forEach((item) => inject(item))
+    }))
 }
 
+sort() 

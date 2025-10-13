@@ -86,8 +86,20 @@ img {
     opacity: 50%;
 }
 
-.cart__product {
-    font-weight: 400;
+.filter__or__sort {
+    display: flex;
+    justify-content: center;
+    gap: 2%
+}
+.filter__or__sort button {
+    border-width: 0px;
+    
+}
+.filter__or__sort button:hover {
+    text-decoration: underline;
+}
+.filter__or__sort button::after {
+    color: #799ff1;
 }
 .cart {
     width: 40%;
@@ -101,14 +113,17 @@ img {
     width: 100%;
     align-items: center;
 }
-.cart__product {
-    border: #2e302d;
+.item__details {
     font-size: 1.728rem;
+}
+.cart__product {
+  
     display: flex;
     justify-content: space-between;
     width: 100%;
     border-bottom: 1px solid;
     margin-bottom: 2%;
+    font-weight: 400;
 }
 
 .remove--buttons {
