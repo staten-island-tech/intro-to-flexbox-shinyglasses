@@ -242,15 +242,19 @@ function remove_items() {
             cart_total -= item.price;
             update_cart_total()
             console.log(cart_total)
+            if (item.amount === 0) {
+            html_item.remove();
+        }
         } else if (event.target.classList.contains('remove--all')) {
             cart_total -= item.price * item.amount
             update_cart_total();
             console.log(cart_total)
             item.amount = 0;    
-        }
-        if (item.amount === 0) {
+            if (item.amount === 0) {
             html_item.remove();
         }
+        }
+        
     }) 
 }
 
@@ -301,21 +305,24 @@ function sort() {
         sorted_array.forEach((item) => inject(item))
     }))
 }
+sort()
 
-function buy() {
-    //makes reciept
-    purchase_btn = cart.querySelector('.purchase');
-    purchase_btn.addEventListener('click', function(event) {
-        const html = `<div class='reciept>Total:$${cart_total}</div>`
-        console.log('purchase')
-        cart.insertAdjacentHTML('afterbegin', html)
-    })
-}
-sort() 
-
+//makes reciept
 function reciept() {
-    //normally i would do purchase.addeventlistener but that 
+    //normally i would do purchase.addeventlistener 
+    // but i was having errors that it was null so i went with this
     cart.addEventListener('click', function(event) {
-        if (event.target.classList.contains('purchase'))
-    })
+        if (event.target.classList.contains('purchase')) { 
+            console.log('purcahse');
+            console.log(items_in_cart);
+            const html = `<div class='reciept'>
+            <h3>Reciept</h3>
+            <p>Total: $${cart_total}</p>
+            <h4>Items Bought:</h4>
+            </div>`
+            cart.insertAdjacentHTML('afterend', html)
+        }
+    }
+)
 }
+reciept()

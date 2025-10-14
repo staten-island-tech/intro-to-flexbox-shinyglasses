@@ -23,8 +23,8 @@ body {
     color: #f5f8fa;
     border-width: 0;
     border-radius: 4px;
-    padding: 8px 12px;
     margin-right: 5%;
+    padding: 8px 12px;
 }
 .buy:hover {
     transform: scale(1.2);
@@ -117,7 +117,6 @@ img {
     font-size: 1.728rem;
 }
 .cart__product {
-  
     display: flex;
     justify-content: space-between;
     width: 100%;
@@ -128,8 +127,35 @@ img {
 
 .remove--buttons {
   display: flex;
-  flex-shrink: 0;
+  align-items: center;
+  white-space: nowrap; /* btn text cant be more than one line */
 }
+.remove--one {
+    border-width: 0;
+    margin-right: 10px; /* px isnt ideal but % causes errors */
+}
+.remove--all {
+    border-width: 0;
+}
+
+.remove--all:hover {
+    font-weight: 900;
+}
+.remove--one:hover {
+    font-weight: 900;
+}
+
+input[type='checkbox'], input[type='radio'] {
+    appearance: none
+    /*gets rid of the circles and squares when selected */
+}
+input[type='checkbox']:checked + label, input[type='radio']:checked + label {
+    /* the + label selects the next sibling label
+    i couldve done something like .classnameoflabel:has(input:checked)
+    but that was more complex */
+    font-weight: bold;
+}
+
 @media screen and (max-width:700px){
     .card {
         width: 100%;
