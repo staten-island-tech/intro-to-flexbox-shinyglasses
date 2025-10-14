@@ -93,7 +93,7 @@ img {
 }
 .filter__or__sort button {
     border-width: 0px;
-    
+    background-color: #f5f8fa;
 }
 .filter__or__sort button:hover {
     text-decoration: underline;

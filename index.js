@@ -64,8 +64,8 @@ const items = [
         "instock": true
     },
     {
-        "name": "Mask",
-        "image": "images/mask.png",
+        "name": "Face Mask",
+        "image": "images/face_mask.png",
         "alt": "Mask picture",
         "price": 30,
         "type": ["face"],
@@ -142,7 +142,23 @@ const items = [
         "price": 10,
         "type": ["face"],
         "instock": true
-    }
+    },
+    {
+        "name": "Eye Mask",
+        "image": "images/eye_mask.png",
+        "alt": "Eye Mask image",
+        "price": 15,
+        "type": ["face"],
+        "instock": true,
+    },
+    {
+        "name": "Mist",
+        "image": "images/mist.png",
+        "alt": "Mist image",
+        "price": 25,
+        "type": ["face"],
+        "instock": true,
+    },
 ]
 
 const cart = document.querySelector('.cart');
@@ -218,7 +234,6 @@ function remove_items() {
         const html_item = event.target.parentElement.parentElement;
         const item_name = html_item.dataset.title;
         const item = items_in_cart.find(item => item.name === item_name);
-        console.log(item)
         if (event.target.classList.contains('remove--one')) {
             //need to find js version
             item.amount -= 1;
@@ -239,45 +254,25 @@ function remove_items() {
     }) 
 }
 
-function remove_one_from_cart() {
-    console.log('jhsdfjsdfjillj');
-    const btns = document.querySelectorAll('.remove--one');
-    btns.forEach((btn) => {
-        btn.addEventListener('click', function(event) {
-            console.log('fifjisjif');   
-            
-        });
-    });
-}
-
-function remove_all_from_cart() {
-    const btns = document.querySelectorAll('.remove--all'); // select the correct buttons
-    btns.forEach((btn) => {
-        btn.addEventListener('click', function(event) {
-            
-        });
-    });
-}
-
 remove_items()
 
 function filter() {
-    const filter_btns = document.querySelectorAll('.filter');
-    filter_btns.forEach(btn => btn.addEventListener('click', function(event) {
-        let filter_type = event.target.textContent.toLowerCase();
+    const check_boxes = document.getElementsByName('filter_type');
+    filter_type = ''
+    check_boxes.forEach(btn => btn.addEventListener('click', function(event) {
+        console.log(event.target.value)
+        let filter_type = event.target.value.toLowerCase();
+        //this is an ANY filter
         if (filter_type === 'tools') {
             filter_type = 'tool';
             //the filter button is Tools while in the items array the type is tool
         }
-        console.log(filter_type)
         const filtered_array = items.filter(item => item.type.includes(filter_type));
         console.log(filtered_array);
         const container = document.querySelector('.container');
         container.innerHTML = ''
         //this unfortunately breaks the buy button event listenerd
         filtered_array.forEach(item =>inject(item))
-        
-        
     }))
     
 }
@@ -291,15 +286,15 @@ container.addEventListener('click', function(event) {
 });
 function sort() {
     //price sorting 
-    const sort_btns = document.querySelectorAll('.sort');
+    const sort_btns = document.getElementsByName('sort_type');
     sort_btns.forEach(btn => btn.addEventListener('click', function(event) {
-        const sort_type = event.target.textContent;
+        const sort_type = event.target.value;
         console.log('button triggered')
         if (sort_type === 'Expensive to Cheap') {
-            sorted_array = items.sort((itemA, itemB)=> itemB.price - itemA.price )
+            sorted_array = items.sort((a, b)=> a.price - b.price )
             console.log(sorted_array)
         } else if (sort_type === 'Cheap to Expensive') {
-            sorted_array = items.sort((itemA, itemB)=> itemA.price - itemB.price )
+            sorted_array = items.sort((a, b)=> b.price - a.price )
             console.log(sorted_array)
         }   
         container.innerHTML = ''
@@ -307,4 +302,20 @@ function sort() {
     }))
 }
 
+function buy() {
+    //makes reciept
+    purchase_btn = cart.querySelector('.purchase');
+    purchase_btn.addEventListener('click', function(event) {
+        const html = `<div class='reciept>Total:$${cart_total}</div>`
+        console.log('purchase')
+        cart.insertAdjacentHTML('afterbegin', html)
+    })
+}
 sort() 
+
+function reciept() {
+    //normally i would do purchase.addeventlistener but that 
+    cart.addEventListener('click', function(event) {
+        if (event.target.classList.contains('purchase'))
+    })
+}
