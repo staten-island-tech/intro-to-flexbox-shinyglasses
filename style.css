@@ -101,6 +101,14 @@ img {
 .filter__or__sort button::after {
     color: #799ff1;
 }
+label {
+    font-size:2rem;
+}
+
+.filter {
+    border-bottom: 1px solid #2e302d;
+}
+                                                                                                        
 .cart {
     width: 40%;
     margin: 0 auto;
@@ -155,6 +163,8 @@ input[type='checkbox']:checked + label, input[type='radio']:checked + label {
     but that was more complex */
     font-weight: bold;
 }
+
+
 
 @media screen and (max-width:700px){
     .card {

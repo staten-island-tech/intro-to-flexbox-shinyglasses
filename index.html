@@ -11,19 +11,24 @@
 </head>
 <body>
     <h1> Skincare Store </h1>
-    <h1>Filter</h1>
-        <input type="checkbox" name="filter_type" value="tools" id="tools">
-        <label for="tools"> Tools</label>
-        <input type="checkbox" name="filter_type" value="face" id="face">
-        <label for="face"> Face</label>
-        <input type="checkbox" name="filter_type" value="body" id="body">
-        <label for="body"> Body</label>
-    <h2> Sort</h2>
-        <input type="radio" name="sort_type" value="Expensive to Cheap" id="expensive_to_cheap">
-        <label for="expensive_to_cheap">Expensive to Cheap</label>
-        <input type="radio" name="sort_type" value="Cheap to Expensive" id="cheap_to_expensive">
-        <label for="cheap_to_expensive" class="selector">Cheap to Expensive</label>
-    
+    <div class="filter__or__sort">
+        <div class="filter">
+            <h1>Filter</h1>
+                <input type="checkbox" name="filter_type" value="tools" id="tools">
+                <label for="tools"> Tools</label>
+                <input type="checkbox" name="filter_type" value="face" id="face">
+                <label for="face"> Face</label>
+                <input type="checkbox" name="filter_type" value="body" id="body">
+                <label for="body"> Body</label>
+        </div>
+        <div class="sort">
+        <h2> Sort</h2>
+            <input type="radio" name="sort_type" value="Expensive to Cheap" id="expensive_to_cheap">
+            <label for="expensive_to_cheap">Expensive to Cheap</label>
+            <input type="radio" name="sort_type" value="Cheap to Expensive" id="cheap_to_expensive">
+            <label for="cheap_to_expensive">Cheap to Expensive</label>
+        </div>
+    </div>
     <div class="container">
     </div>
     <div class="cart">
