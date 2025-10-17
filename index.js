@@ -187,7 +187,7 @@ function render_cart_items(item) {
                     <div class='cart__product' data-title="${item.name}">
                     <span class='item__details'> ${item.name} (Amount: ${item.amount}): $${item.amount * item.price}</span>
                     <div class="remove--buttons"> 
-                    <button class='remove--one'>Remove one</button>
+                    <button class='remove--one'>Remove one</button><span class='line'></span>
                     <button class='remove--all'>Remove all</button>
                     </div>
                     </div>`)
@@ -271,7 +271,12 @@ function filter() {
             filter_type = 'tool';
             //the filter button is Tools while in the items array the type is tool
         }
-        const filtered_array = items.filter(item => item.type.includes(filter_type));
+        let filtered_array = items.filter(item => item.type.includes(filter_type));
+        console.log(filter_type)
+        if (!event.target.checked) {
+            //aka none are selected
+            filtered_array = items;
+        }
         console.log(filtered_array);
         const container = document.querySelector('.container');
         container.innerHTML = ''

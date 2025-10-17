@@ -30,7 +30,6 @@ body {
     transform: scale(1.2);
     background-color:#3d70dd;
     box-shadow: 0 0 20px rgba(0,255,255,0.5);
-    
 }
 
 h2 {
@@ -95,20 +94,27 @@ img {
     border-width: 0px;
     background-color: #f5f8fa;
 }
-.filter__or__sort button:hover {
+.sort h2{
+    text-decoration: underline;
+}
+.filter h2 { 
     text-decoration: underline;
 }
 .filter__or__sort button::after {
     color: #799ff1;
 }
+
 label {
     font-size:2rem;
 }
 
 .filter {
-    border-bottom: 1px solid #2e302d;
+    margin-top: 3%;
+    gap: 2%;
 }
-                                                                                                        
+.sort {
+    margin-top: 3%;
+}                                                                                            
 .cart {
     width: 40%;
     margin: 0 auto;
@@ -141,6 +147,7 @@ label {
 .remove--one {
     border-width: 0;
     margin-right: 10px; /* px isnt ideal but % causes errors */
+    border-right: 1px;
 }
 .remove--all {
     border-width: 0;
@@ -153,6 +160,13 @@ label {
     font-weight: 900;
 }
 
+.purchase {
+    border: 0;
+}
+.purchase:hover {
+    font-weight: bold;
+}
+
 input[type='checkbox'], input[type='radio'] {
     appearance: none
     /*gets rid of the circles and squares when selected */
@@ -163,9 +177,16 @@ input[type='checkbox']:checked + label, input[type='radio']:checked + label {
     but that was more complex */
     font-weight: bold;
 }
-
-
-
+input[type='checkbox']:hover + label, input[type='radio']:hover + label {
+    /* the + label selects the next sibling label
+    i couldve done something like .classnameoflabel:has(input:checked)
+    but that was more complex */
+    text-decoration: underline;
+}
+.line {
+    border-right: 1px solid #2e302d;
+    height: 1px;
+}
 @media screen and (max-width:700px){
     .card {
         width: 100%;
