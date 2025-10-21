@@ -162,7 +162,7 @@ const items = [
 ]
 
 const cart = document.querySelector('.cart');
-const items_in_cart = [];
+let items_in_cart = [];
 let cart_total = 0;
 const container = document.querySelector(".container");
 
@@ -206,7 +206,6 @@ function handle_add_to_cart(item) {
         items_in_cart.push(item);
         render_cart_items(item);
     }
-
     update_cart_total();
 }
 
@@ -238,19 +237,25 @@ function remove_items() {
             item_details.textContent = `${item.name} (Amount: ${item.amount}): $${item.amount * item.price}`;
             cart_total -= item.price;
             update_cart_total()
-            console.log(cart_total)
             if (item.amount === 0) {
             html_item.remove();
+           
         }
         } else if (event.target.classList.contains('remove--all')) {
             cart_total -= item.price * item.amount
             update_cart_total();
-            console.log(cart_total)
             item.amount = 0;    
-            if (item.amount === 0) {
+            
             html_item.remove();
+            
+            console.log(items_in_cart)
         }
-        }
+        items_in_cart = items_in_cart.filter(item => item.amount > 0);
+        if (reciept_exist) {
+            const reciept = document.querySelector('.receipt');
+            reciept.innerHTML = ''
+            reciept_exist = false
+        } 
         
     }) 
 }
@@ -258,51 +263,77 @@ function remove_items() {
 remove_items()
 
 function filter() {
+    //this is an ANY (or) filter
+    //i could do an all (and) filter as well but it'd be hard to
+    //concisely explain to the user the difference between ANY and ALL buttons
+    //so im just doing any ANY filter
+
     const check_boxes = document.getElementsByName('filter_type');
     filter_type = '';
     let filter_types = [];
     check_boxes.forEach(btn => btn.addEventListener('click', function(event) {
         //enable filters
         let filter_type = event.target.value.toLowerCase();
-        //this is an ANY filter
         if (filter_type === 'tools') {
             filter_type = 'tool';
             //the filter button is Tools while in the items array the type is tool
         }
-        filter_types.push(filter_type);
-        if (btn.checked) {
+        
+      if (filter_type === 'tools') {
+        filter_type = 'tool';
+        //item array has the type as 'tool', checkbox has it as 'tools
+      }
 
+      // update filters
+      if (btn.checked) {
+        // add if not already there
+        if (!filter_types.includes(filter_type)) {
+          filter_types.push(filter_type);
         }
-        console.log(filter_type)
-        //disable filters
-        //for filter in filter types
-        //filtered_array = items.filter(item => item.type.includes(filter_types[filter]))
-        const filtered_array = items.filter(item => item.type.includes(filter_types[i]));
-        
-        filter_types.forEach(item )
-        console.log(filtered_array);
-        
-        //inject filtered cards
-        const container = document.querySelector('.container');
-        container.innerHTML = ''
-        filtered_array.forEach(item =>inject(item))
+      } else {
+        filter_types = filter_types.filter(filter => filter !== filter_type);
+        //disables the checkboxes
+      }
+
+      let filtered_array; //declared here to avoid scope issues
+
+      if (filter_types.length > 0) {
+        filtered_array = items.filter(item =>
+          item.type.some(type => filter_types.includes(type))
+        );
+      } else {
+        // if nothing checked, show all
+        filtered_array = items;
+      }
+
+      // update dom
+      container.innerHTML = '';
+      filtered_array.forEach(item => inject(item));    
     }))
 }
 filter();
 //TO DO: move this elsewhere
 // the container.innerhtml = '' breaks the buy button event listeners bc it deletes the buy buttons
 // but this checks the container and that doesnt get deleted so it works
-container.addEventListener('click', function(event) {
-    if (event.target.classList.contains('buy')) {
-        const itemName = event.target.dataset.title;
-        const item = items.find(i => i.name === itemName);
-        handle_add_to_cart(item); // this just adds item, no listeners
-        const receipt = document.querySelector('.receipt');
-        if (reciept) {
-            receipt.innerHTML = ''
+
+function add_buy_listener() {
+    const container = document.querySelector('.container');
+    container.addEventListener('click', function(event) {
+        if (event.target.classList.contains('buy')) {
+            const item_name = event.target.dataset.title;
+            const item = items.find(item => item.name === item_name);
+            handle_add_to_cart(item);
+
+            const receipt = document.querySelector('.receipt');
+            if (receipt) {
+                receipt.innerHTML = '';
+                reciept_exist = false;
+            }
         }
-    }
-});
+    });
+}
+
+add_buy_listener();
 
 
 function sort() {
@@ -310,13 +341,10 @@ function sort() {
     const sort_btns = document.getElementsByName('sort_type');
     sort_btns.forEach(btn => btn.addEventListener('click', function(event) {
         const sort_type = event.target.value;
-        console.log('button triggered')
         if (sort_type === 'Expensive to Cheap') {
             sorted_array = items.sort((a, b)=> a.price - b.price )
-            console.log(sorted_array)
         } else if (sort_type === 'Cheap to Expensive') {
             sorted_array = items.sort((a, b)=> b.price - a.price )
-            console.log(sorted_array)
         }   
         container.innerHTML = ''
         sorted_array.forEach((item) => inject(item))
@@ -327,28 +355,34 @@ sort()
 function get_items_bought() {
     //for putting the items on the receipt
     wrapped_array = [];
-    items_in_cart.forEach(item => wrapped_array.push(`<ul>${item.name} (Amount: ${item.amount})</ul>`));
+    items_in_cart.forEach(item => wrapped_array.push(`<li>${item.name} (Amount: ${item.amount})</li>`));
     return wrapped_array;
     //for item in items in cart, wrap it in a ul and add it to the html in reciept
 }
+
+let reciept_exist = false;
 //makes reciept
 function reciept() {
     //normally i would do purchase.addeventlistener 
     // but i was having errors that it was null so i went with this
     cart.addEventListener('click', function(event) {
         if (event.target.classList.contains('purchase')) { 
-            console.log('purcahse');
-            console.log(items_in_cart);
-            items_bought = get_items_bought();
-            console.log(items_bought)
-            let html = `<div class='receipt'>
-            <h3>Receipt</h3>
-            <p>Total: $${cart_total}</p>
-            <h4>Items Bought:</h4>`; ///it not having a end div is so i can push each item 
-            // to the html otherwise it would have end div then the items which wont work
-            items_bought.forEach(item => html += item);
-            html += '</div>'; //close the receipt div properly
-            cart.insertAdjacentHTML('afterend', html);
+            if (!reciept_exist) {
+                let items_bought = get_items_bought();
+                let html = `<div class='receipt'> 
+                <h3>Receipt</h3>
+                <h4>Items Bought:</h4>
+                <ul class='items--bought'>`; ///it not having a end div is so i can push each item 
+                // to the html otherwise it would have end div then the items which wont work
+                items_bought.forEach(item => html += item);
+                html += `</ul><p>Total: $${cart_total}</p></div>`; //close the receipt div properly
+                if (items_in_cart.length > 0) {
+                    //doesnt make receipt if there are no items
+                    cart.insertAdjacentHTML('afterend', html);
+                    reciept_exist = true
+                }
+                
+            } 
         }
     }
 )

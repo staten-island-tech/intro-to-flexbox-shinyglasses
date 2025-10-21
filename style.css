@@ -105,8 +105,10 @@ img {
 }
 
 label {
-    font-size:2rem;
+    font-size: 2rem;
+    margin-left: 10px;  
 }
+
 
 .filter {
     margin-top: 3%;
@@ -129,6 +131,9 @@ label {
 }
 .item__details {
     font-size: 1.728rem;
+}
+.total__details {
+    font-size: 30px;
 }
 .cart__product {
     display: flex;
@@ -162,6 +167,7 @@ label {
 
 .purchase {
     border: 0;
+    font-size: 30px;
 }
 .purchase:hover {
     font-weight: bold;
@@ -187,6 +193,30 @@ input[type='checkbox']:hover + label, input[type='radio']:hover + label {
     border-right: 1px solid #2e302d;
     height: 1px;
 }
+
+.receipt {
+    width: 100%;
+
+}
+.receipt h3 {
+    font-size: 2.074rem;
+    margin-bottom: 1%;
+}
+
+.receipt h4 {
+    font-weight: bold;
+}
+
+
+.items--bought li {
+    font-size: 1.2rem;
+}
+
+.receipt p {
+    margin-top: 20px;
+    font-size: 1.728rem;
+}
+
 @media screen and (max-width:700px){
     .card {
         width: 100%;
