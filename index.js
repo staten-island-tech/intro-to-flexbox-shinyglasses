@@ -149,7 +149,7 @@ const items = [
         "alt": "Eye Mask image",
         "price": 15,
         "type": ["face"],
-        "instock": true,
+        "instock": true
     },
     {
         "name": "Mist",
@@ -157,7 +157,7 @@ const items = [
         "alt": "Mist image",
         "price": 25,
         "type": ["face"],
-        "instock": true,
+        "instock": true
     },
 ]
 
@@ -179,7 +179,6 @@ function inject(item) {
 
 items.forEach((item) => inject(item))
 //create inject function and loop through items
-
 
 function render_cart_items(item) {
    const cart_heading = document.querySelector('.cart__items')
@@ -210,8 +209,6 @@ function handle_add_to_cart(item) {
 
     update_cart_total();
 }
-
-
 
 function update_cart_total() {
     const total_section = cart.querySelector('.total');
@@ -265,34 +262,37 @@ function filter() {
     filter_type = ''
     check_boxes.forEach(btn => btn.addEventListener('click', function(event) {
         console.log(event.target.value)
+        //enable filters
         let filter_type = event.target.value.toLowerCase();
         //this is an ANY filter
         if (filter_type === 'tools') {
             filter_type = 'tool';
             //the filter button is Tools while in the items array the type is tool
         }
-        let filtered_array = items.filter(item => item.type.includes(filter_type));
-        console.log(filter_type)
-        if (!event.target.checked) {
-            //aka none are selected
-            filtered_array = items;
-        }
+        const filtered_array = items.filter(item => item.type.includes(filter_type));
         console.log(filtered_array);
         const container = document.querySelector('.container');
         container.innerHTML = ''
-        //this unfortunately breaks the buy button event listenerd
         filtered_array.forEach(item =>inject(item))
     }))
-    
 }
 filter();
+//TO DO: move this elsewhere
+// the container.innerhtml = '' breaks the buy button event listeners bc it deletes the buy buttons
+// but this checks the container and that doesnt get deleted so it works
 container.addEventListener('click', function(event) {
     if (event.target.classList.contains('buy')) {
         const itemName = event.target.dataset.title;
         const item = items.find(i => i.name === itemName);
         handle_add_to_cart(item); // this just adds item, no listeners
+        const receipt = document.querySelector('.receipt');
+        if (reciept) {
+            receipt.innerHTML = ''
+        }
     }
 });
+
+
 function sort() {
     //price sorting 
     const sort_btns = document.getElementsByName('sort_type');
@@ -312,6 +312,13 @@ function sort() {
 }
 sort()
 
+function get_items_bought() {
+    //for putting the items on the receipt
+    wrapped_array = [];
+    items_in_cart.forEach(item => wrapped_array.push(`<ul>${item.name} (Amount: ${item.amount})</ul>`));
+    return wrapped_array;
+    //for item in items in cart, wrap it in a ul and add it to the html in reciept
+}
 //makes reciept
 function reciept() {
     //normally i would do purchase.addeventlistener 
@@ -320,14 +327,19 @@ function reciept() {
         if (event.target.classList.contains('purchase')) { 
             console.log('purcahse');
             console.log(items_in_cart);
-            const html = `<div class='reciept'>
-            <h3>Reciept</h3>
+            items_bought = get_items_bought();
+            console.log(items_bought)
+            let html = `<div class='receipt'>
+            <h3>Receipt</h3>
             <p>Total: $${cart_total}</p>
-            <h4>Items Bought:</h4>
-            </div>`
-            cart.insertAdjacentHTML('afterend', html)
+            <h4>Items Bought:</h4>`; ///it not having a end div is so i can push each item 
+            // to the html otherwise it would have end div then the items which wont work
+            items_bought.forEach(item => html += item);
+            html += '</div>'; //close the receipt div properly
+            cart.insertAdjacentHTML('afterend', html);
         }
     }
 )
 }
+get_items_bought()
 reciept()
