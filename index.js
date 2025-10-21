@@ -259,9 +259,9 @@ remove_items()
 
 function filter() {
     const check_boxes = document.getElementsByName('filter_type');
-    filter_type = ''
+    filter_type = '';
+    let filter_types = [];
     check_boxes.forEach(btn => btn.addEventListener('click', function(event) {
-        console.log(event.target.value)
         //enable filters
         let filter_type = event.target.value.toLowerCase();
         //this is an ANY filter
@@ -269,8 +269,20 @@ function filter() {
             filter_type = 'tool';
             //the filter button is Tools while in the items array the type is tool
         }
-        const filtered_array = items.filter(item => item.type.includes(filter_type));
+        filter_types.push(filter_type);
+        if (btn.checked) {
+
+        }
+        console.log(filter_type)
+        //disable filters
+        //for filter in filter types
+        //filtered_array = items.filter(item => item.type.includes(filter_types[filter]))
+        const filtered_array = items.filter(item => item.type.includes(filter_types[i]));
+        
+        filter_types.forEach(item )
         console.log(filtered_array);
+        
+        //inject filtered cards
         const container = document.querySelector('.container');
         container.innerHTML = ''
         filtered_array.forEach(item =>inject(item))
