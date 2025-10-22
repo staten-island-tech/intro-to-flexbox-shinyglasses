@@ -274,10 +274,6 @@ function filter() {
     check_boxes.forEach(btn => btn.addEventListener('click', function(event) {
         //enable filters
         let filter_type = event.target.value.toLowerCase();
-        if (filter_type === 'tools') {
-            filter_type = 'tool';
-            //the filter button is Tools while in the items array the type is tool
-        }
         
       if (filter_type === 'tools') {
         filter_type = 'tool';
@@ -312,10 +308,6 @@ function filter() {
     }))
 }
 filter();
-//TO DO: move this elsewhere
-// the container.innerhtml = '' breaks the buy button event listeners bc it deletes the buy buttons
-// but this checks the container and that doesnt get deleted so it works
-
 function add_buy_listener() {
     const container = document.querySelector('.container');
     container.addEventListener('click', function(event) {
